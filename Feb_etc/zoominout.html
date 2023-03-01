@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>지도 확대 축소</title>
+    <style>
+html, body {width:100%;height:100%;margin:0;padding:0;} 
+.map_wrap {position:relative;overflow:hidden;width:100%;height:350px;}
+.custom_zoomcontrol {position:absolute;top:50px;right:10px;width:40px;height:80px;overflow:hidden;z-index:1;} 
+.custom_zoomcontrol span {display:block;width:40px;height:40px;text-align:center;cursor:pointer;}     
+.custom_zoomcontrol span img {width:40px;height:40px;padding:0px;border:none;}             
+</style>
+</head>
+<body>
+<div class="map_wrap" style="width:100%;height:100vh">
+    <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div> 
+    <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
+    <div class="custom_zoomcontrol"> 
+        <span onclick="zoomIn()"><img src="assets/svg/zoomin.svg" alt="확대"></span>  
+        <span onclick="zoomOut()"><img src="assets/svg/zoomout.svg" alt="축소"></span>
+    </div>
+</div>
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=031a443a92dcb9a30d67454244120cd4"></script>
+<script>
+var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+    mapOption = { 
+        center: new kakao.maps.LatLng(36.3701, 127.3461), // 지도의 중심좌표
+        level: 2 // 지도의 확대 레벨
+    };  
+
+var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    
+
+// 지도 확대, 축소 컨트롤에서 확대 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomIn() {
+    map.setLevel(map.getLevel() - 1);
+}
+
+// 지도 확대, 축소 컨트롤에서 축소 버튼을 누르면 호출되어 지도를 확대하는 함수입니다
+function zoomOut() {
+    map.setLevel(map.getLevel() + 1);
+}
+
+// 지도 축소 한계 설정
+map.setMaxLevel(3);
+
+// 마커가 표시될 위치입니다 
+var markerPosition  = new kakao.maps.LatLng(36.3701, 127.3461); 
+
+// 마커를 생성합니다
+var marker = new kakao.maps.Marker({
+    position: markerPosition
+});
+
+// 마커가 지도 위에 표시되도록 설정합니다
+marker.setMap(map);
+
+
+</script>
+</body>
+</html>
