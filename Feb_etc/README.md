@@ -1,2 +1,0 @@
-# communitymap-frontend
-communitymap-frontend
