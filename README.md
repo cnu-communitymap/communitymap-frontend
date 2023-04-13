@@ -2,7 +2,7 @@
 
 2023 CNU SW Academy 2기 15조 <재밌을지도>
 
-팀 프로젝트 + 기업 프로젝트 
+팀 프로젝트 + 기업 프로젝트
 
 
 ### 💡 프로젝트 소개
@@ -19,6 +19,7 @@ NCP를 활용하여 WEB (Nginx) + WAS (Apache Tomcat) + DB (PostgreSQL) 구축 �
 - 김우진 - Frontend
 - 김해경 - Backend
 - 김태현 - Backend
+- 정현서 - Backend (기업 프로젝트 협업)
 
 
 ### ⏳ 개발 기간
