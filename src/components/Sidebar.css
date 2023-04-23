@@ -1,9 +1,0 @@
-.sidebar {
-    position : fixed;
-    display : flex;
-    flex-direction: column;
-    left : 0; top: 0; bottom: 0;
-    width: 70px;
-    background-color: #6356E5;
-    z-index: 999;
-}

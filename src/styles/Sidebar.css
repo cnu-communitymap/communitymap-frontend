@@ -1,0 +1,16 @@
+.sidebar {
+  position : fixed;
+  display : flex;
+  flex-direction: column;
+  left : 0; top: 0; bottom: 0;
+  width: 70px;
+  background-color: #6356E5;
+  z-index: 999;
+}
+
+
+/* 사이드 바 img 스타일 */
+.sidebar img {
+  margin-bottom: 25px; /* 이미지 아래쪽에 10px의 간격을 띄웁니다. */
+  cursor : pointer;
+}
