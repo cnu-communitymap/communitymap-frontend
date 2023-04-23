@@ -1,0 +1,11 @@
+.side-page {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 500px;
+  background-color: white;
+  z-index: 998;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease-in-out;
+}

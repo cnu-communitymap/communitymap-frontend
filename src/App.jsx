@@ -1,16 +1,20 @@
-import React from "react";
-import './App.css'
-import Kakao from './components/Kakao';
-import Sidebar from "./components/Sidebar";
-
-
+import React, { useState } from 'react';
+import Map from '@/components/Map';
+import Sidebar from '@/components/Sidebar';
+import SidePage from '@/components/SidePage';
 function App() {
+  const [isSidePageOpen, setIsSidePageOpen] = useState(false);
+
+  const handleMenuClick = () => {
+    setIsSidePageOpen(!isSidePageOpen);
+  }
   return (
-    <div>
-      <Sidebar />
-      <Kakao />
+    <div className="app">
+      <Sidebar handleMenuClick={handleMenuClick}/>
+      <Map />
+      <SidePage isOpen={isSidePageOpen} />
     </div>
-  )
+  );
 }
 
 export default App;
