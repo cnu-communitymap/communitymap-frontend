@@ -19,12 +19,11 @@ NCP를 활용하여 WEB (Nginx) + WAS (Apache Tomcat) + DB (PostgreSQL) 구축 �
 - 김우진 - Frontend
 - 김해경 - Backend
 - 김태현 - Backend
-- 정현서 - Backend (기업 프로젝트 협업)
 
 
 ### ⏳ 개발 기간
 
-2023.01 ~ 2023.04
+2023.01 ~ 2023.04 + α
 (현재 진행중)
 
 
