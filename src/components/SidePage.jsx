@@ -1,12 +1,34 @@
 import React from 'react';
-import "@/styles/SidePage.css";
+import '@/styles/SidePage.css';
+import WritePostForm from '@/components/WritePostForm';
+import ReadPostForm from '@/components/ReadPostForm';
 
-function SidePage({ isOpen }) {
+function SidePage({ sidePage, closeSidePage }) {
+  const handleSidebarBackgroundClick = (e) => {
+    if (e.target.className === 'sidepage-background') {
+      closeSidePage();
+    }
+  };
+
   return (
-    <div className="side-page" style={{ transform: `translateX(${isOpen ? "70" : "-500"}px)` }}>
-      <h1>Side Page</h1>
-      <p>Here's some content for the side page.</p>
-    </div>
+    <>
+      {sidePage.isOpen && (
+        <div className="sidepage-background" onClick={handleSidebarBackgroundClick}>
+          <div className="sidepage" style={{ width: '500px', left: '70px' }}>
+            {sidePage.content === 'write' && (
+              <div>
+                <WritePostForm closeSidePage={closeSidePage} />
+              </div>
+            )}
+            {sidePage.content === 'read' &&  (
+              <div>
+                <ReadPostForm post={sidePage.post} closeSidePage={closeSidePage}/>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 

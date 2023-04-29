@@ -1,0 +1,131 @@
+.readTotal {
+    margin: 10px 30px 10px 30px;
+}
+
+.readTitle {
+    width: 400px;
+    height: 45px;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.readClose {
+    cursor: pointer;
+    margin-left: 420px;
+    margin-bottom: 10px;
+    /* top: 10px;
+    right: 10px; */
+    color: #888;
+    width: 17px;
+    height: 17px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png')
+}
+
+.readImage {
+    margin: 0px;
+    max-width: 320px;
+    max-height: 320px;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 1px solid #ddd;
+}
+
+.readContent {
+    margin-top: 20px;
+    width: 350px;
+    height: 150px;
+    word-wrap: break-word;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-line-clamp: 10;
+    -webkit-box-orient: vertical;
+    font-size: 17px;
+    font-weight: 550;
+    color: rgb(77, 73, 73);
+    letter-spacing: 1px;
+    line-height: 22px;
+}
+
+.readBtns {
+    display: flex;
+    justify-content: flex-end;
+    /* 버튼들을 오른쪽 끝으로 정렬 */
+    margin-top: 1rem;
+    margin-bottom: 5px;
+}
+
+.readBtns button {
+    margin-left: 1rem;
+    /* 버튼 사이의 간격 설정 */
+    padding: 2px;
+    background-color: #fff;
+    color: #6356e5;
+    border: 2px solid #6356e5;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    width: 45px;
+    height: 30px;
+}
+
+.readBtns button:hover {
+    background-color: #6356e5;
+    color: #fff;
+}
+
+.readDelete {
+    margin-right: 25px;
+}
+.read_commentsUl {
+    margin-left: 80px;
+    padding: 0px;
+}
+.read_commentsLi {
+    font-size: 14px;
+    margin-left: 0px;
+    padding: 0px;
+}
+
+.pluscomment {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    max-width: 500px;
+    margin-bottom: 1rem;
+}
+
+.pluscomment .form-control {
+    flex: 1;
+    display: flex;
+    align-items: center;
+}
+
+.pluscomment .form-control label {
+    margin-right: 1rem;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.pluscomment .form-control input[type="text"] {
+    height: 30px;
+    width: 280px;
+    font-size: 13px;
+    padding: 0 1rem;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+}
+
+.pluscomment button[type="submit"] {
+    height: 35px;
+    margin-left: 0;
+    padding: 0 1rem;
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #6356E5;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

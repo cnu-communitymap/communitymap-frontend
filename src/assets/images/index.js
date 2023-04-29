@@ -1,8 +1,8 @@
-import menuIcon from './menu_button.svg';
+import homeIcon from './home.svg';
 import profileIcon from './profile_button.svg';
 import settingIcon from './setting_button.svg';
 
-export { menuIcon, profileIcon, settingIcon };
+export { homeIcon, profileIcon, settingIcon };
 
 import infoIcon from './categoryInfo.svg';
 import foodIcon from './categoryFood.svg';

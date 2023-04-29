@@ -1,0 +1,70 @@
+/* src/styles/LoginPage.css */
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  font-family: Arial, sans-serif;
+}
+
+.login-page h2 {
+  margin-bottom: 1rem;
+}
+
+.login-page form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login-page form div {
+  margin-bottom: 1rem;
+}
+
+.login-page form label {
+  display: inline-block;
+  width: 8rem;
+  text-align: right;
+  margin-right: 1rem;
+}
+
+.login-page form input {
+  width: 20rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.login-page button {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  margin-top: 1rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.login-page button:hover {
+  background-color: #45a049;
+}
+
+/* Add this part for proper button styling */
+.login-page .button-container {
+  display: flex;
+  justify-content: space-between;
+  width: 20rem;
+}
+
+.login-page .sign-up-button {
+  background-color: #008CBA;
+}
+
+.login-page .sign-up-button:hover {
+  background-color: #0073ad;
+}
