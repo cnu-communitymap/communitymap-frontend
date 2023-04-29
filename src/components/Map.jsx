@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
+import AccessTokenContext from '@/components/AccessTokenContext';
 import '@/styles/Map.css';
 import zoomInButtonImg from '@/assets/images/zoomin.svg';
 import zoomOutButtonImg from '@/assets/images/zoomout.svg';
@@ -7,10 +8,20 @@ import write_buttonImg from "@/assets/images/write_button.svg";
 import location_now_personImg from "@/assets/images/location_now_person.svg";
 import { infoIcon, foodIcon, talkIcon } from '@/assets/images';
 import { infoMarkerImg, foodMarkerImg, talkMarkerImg } from '@/assets/images';
-
+import  defaultImg  from '@/assets/images/defaultImg.svg';
 const { kakao } = window;
 
-function Map() {
+let currentOverlay = null;
+
+function Map({ openSidePage }) {
+  const { accessToken } = useContext(AccessTokenContext);
+  
+  
+
+  const handleWriteButtonClick = () => {
+    openSidePage('write');
+  };
+
   useEffect(() => {
     const container = document.getElementById('map');
     navigator.geolocation.getCurrentPosition(function (position) {
@@ -27,9 +38,67 @@ function Map() {
 
       const map = new kakao.maps.Map(container, options);
 
-      // ZoomControl 추가
-      const zoomControl = new kakao.maps.ZoomControl();
-      map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+      // // ZoomControl 추가
+      // const zoomControl = new kakao.maps.ZoomControl();
+      // map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+      const handleMarkerClick = (data, marker) => {
+        if ( currentOverlay ) {
+          currentOverlay.setMap(null);
+        }
+
+        const content = `<div class="overlay_wrap">
+        <div class="overlay_info">
+          <div class="overlay_title">${data.title}<div class="overlay_close" title="닫기" /></div>
+          <div class="overlay_body">
+          <img class="overlay_image" src="${data.imageUrl ? data.imageUrl : defaultImg}" alt="이미지 오류">
+            <div class="overlay_desc">
+              <div class="overlay_content">${data.content}</div>
+            </div>
+          </div>
+        <div>
+      </div>`;
+
+        const contentElement = document.createElement("div");
+        contentElement.innerHTML = content;
+        
+        const customOverlay = new kakao.maps.CustomOverlay({
+          content: contentElement,
+          position: marker.getPosition(),
+          xAnchor: 0.5,
+          yAnchor: 1.5,
+          zIndex: 3,
+        });
+      
+        customOverlay.setMap(map);
+      // 닫기 버튼에 이벤트 리스너를 추가
+      const closeButton = customOverlay.getContent().querySelector(".overlay_close");
+      closeButton.addEventListener("click", () => {
+        customOverlay.setMap(null);
+        currentOverlay = null;
+        });
+      
+      const readButton = contentElement.querySelector(".overlay_body");
+      readButton.addEventListener("click", () => {
+        openSidePage("read", { title: data.title, content: data.content, id: data.id, imageUrl: data.imageUrl });
+        customOverlay.setMap(null);
+        currentOverlay = null;
+      });
+
+      // 현재 생성된 오버레이를 추적함.
+      currentOverlay = customOverlay;
+
+        // customOverlay를 닫는 기능을 추가합니다.
+        kakao.maps.event.addListener(customOverlay, 'click', () => {
+          customOverlay.setMap(null);
+          currentOverlay = null;
+        });
+      };
+      const createMarkerAndAddClickListener = (marker, data) => {
+        kakao.maps.event.addListener(marker, 'click', () => {
+          handleMarkerClick(data, marker);
+        });
+      };
 
 
       // 사용자의 현재 위치에 마커를 표시
@@ -43,7 +112,6 @@ function Map() {
         image: markerImage,
       });
       userMarker.setMap(map);
-
 
       // 현재 위치 버튼 클릭 시, 현재 위치로 지도 이동
       const locationButton = document.querySelector('.locationButton');
@@ -68,177 +136,142 @@ function Map() {
         map.setLevel(map.getLevel() + 1);
       });
 
-
-
       // 서버에서 데이터를 받아와 카테고리별 마커 생성
+      const category = ['INFO', 'FOOD', 'TALK'];
 
-      const category = [ 'INFO', 'FOOD', 'TALK']; 
-
-      // 마커가 표시될 좌표 서버에서 불러와서 배열 생성
-      const infoPositions = [];
-      const foodPositions = [];
-      const talkPositions = [];
-
-      fetch(`http://175.106.91.172:9090/post/category?category=${category[0]}`)
-        .then(response => response.json())
-        .then((data) => {
-          data.forEach(id => {
-            const infoPosition = new kakao.maps.LatLng(id.position.latitude, id.position.longitude);
-            infoPositions.push(infoPosition);
-          })
+      const fetchAndCreateMarkers = async (category) => {
+        const response = await fetch(`http://118.67.154.247/mapcommu/post/category?category=${category}`);
+        const data = await response.json();
+        const positions = data.map((item) => {
+          return {
+            position: new kakao.maps.LatLng(item.position.latitude, item.position.longitude),
+            title: item.title,
+            content: item.content,
+            id: item.id,
+            imageUrl: item.imageUrl
+          };
         });
-
-      fetch(`http://175.106.91.172:9090/post/category?category=${category[1]}`)
-        .then(response => response.json())
-        .then((data) => {
-          data.forEach(id => {
-            const foodPosition = new kakao.maps.LatLng(id.position.latitude, id.position.longitude);
-            foodPositions.push(foodPosition);
-          })
-        });
-
-      fetch(`http://175.106.91.172:9090/post/category?category=${category[2]}`)
-        .then(response => response.json())
-        .then((data) => {
-          data.forEach(id => {
-            const talkPosition = new kakao.maps.LatLng(id.position.latitude, id.position.longitude);
-            talkPositions.push(talkPosition);
-          })
-        });
-
-      
-      // 마커 객체를 가지고 있을 배열입니다
-      const infoMarkers = [];
-      const foodMarkers = [];
-      const talkMarkers = [];
-
-
-      // 마커이미지의 주소, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
-      const createMarkerImage = (srcArr, size, options) => {
-        const markerImages = [];
-        srcArr.forEach((src) => {
-          const markerImage = new kakao.maps.MarkerImage(src, size, options);
-          markerImages.push(markerImage);
-        });
-        return markerImages;
-      }
-
-      const markerImages = createMarkerImage([infoMarkerImg, foodMarkerImg, talkMarkerImg], new kakao.maps.Size(45, 45), { offset: new kakao.maps.Point(27, 69) });
-
-
-      // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
-      const createMarker = (position, image) => {
-        const marker = new kakao.maps.Marker({
-          position: position,
-          image: image
-        });
-        return marker;
-      }   
-
-
-      // 카테고리별로 마커를 생성하고 해ㅏㄷㅇ 마커 배열에 추가하는 함수입니다
-
-      const createInfoMarkers = () => {
-        for (let i = 0; i < infoPositions.length; i++) {
-          const marker = createMarker(infoPositions[i], markerImages[0]);
-          infoMarkers.push(marker);
-        }
+    
+        return positions;
       };
-
-      const setInfoMarkers = (map) => {
-        for (let i = 0; i < infoMarkers.length; i++) {
-          infoMarkers[i].setMap(map);
-        }
+    
+      const createMarkers = async () => {
+        const infoPositions = await fetchAndCreateMarkers(category[0]);
+        const foodPositions = await fetchAndCreateMarkers(category[1]);
+        const talkPositions = await fetchAndCreateMarkers(category[2]);
+    
+        return { infoPositions, foodPositions, talkPositions };
       };
-
-      const createFoodMarkers = () => {
-        for (let i = 0; i < foodPositions.length; i++) {
-          const marker = createMarker(foodPositions[i], markerImages[1]);
-          foodMarkers.push(marker);
-        }
-      };
-
-      const setFoodMarkers = (map) => {
-        for (let i = 0; i < foodMarkers.length; i++) {
-          foodMarkers[i].setMap(map);
-        }
-      };
-
-      const createTalkMarkers = () => {
-        for (let i = 0; i < talkPositions.length; i++) {
-          const marker = createMarker(talkPositions[i], markerImages[2]);
-          talkMarkers.push(marker);
-        }
-      };
-
-      const setTalkMarkers = (map) => {
-        for (let i = 0; i < talkMarkers.length; i++) {
-          talkMarkers[i].setMap(map);
-        }
-      };
-      
-      // 카테고리를 클릭했을 때 type에 따라 지도에 표시되는 마커를 변경합니다
-      const changeMarker = (type) => {
-        if (type === 'info') {
-          createInfoMarkers();
-          setInfoMarkers(map);
-          setFoodMarkers(null);
-          setTalkMarkers(null);
-
-        } else if (type === 'food') {
-          createFoodMarkers();
-          setInfoMarkers(null);
-          setFoodMarkers(map);
-          setTalkMarkers(null);
-
-        } else if (type === 'talk') {
-          createTalkMarkers();
-          setInfoMarkers(null);
-          setFoodMarkers(null);
-          setTalkMarkers(map);
+    
+      createMarkers().then(({ infoPositions, foodPositions, talkPositions }) => {
+        // 마커 객체를 가지고 있을 배열입니다
+        const infoMarkers = [];
+        const foodMarkers = [];
+        const talkMarkers = [];
+    
+        // 마커이미지의 주소, 크기, 옵션으로 마커 이미지를 생성하여 리턴하는 함수입니다
+        const createMarkerImage = (srcArr, size, options) => {
+          const markerImages = [];
+          srcArr.forEach((src) => {
+            const markerImage = new kakao.maps.MarkerImage(src, size, options);
+            markerImages.push(markerImage);
+          });
+          return markerImages;
         };
-      }
+    
+        const markerImages = createMarkerImage(
+          [infoMarkerImg, foodMarkerImg, talkMarkerImg],
+          new kakao.maps.Size(45, 45),
+          { offset: new kakao.maps.Point(27, 69) },
+        );
+    
+        // 좌표와 마커이미지를 받아 마커를 생성하여 리턴하는 함수입니다
+        const createMarker = (position, image) => {
+          const marker = new kakao.maps.Marker({
+            position: position,
+            image: image,
+          });
+          return marker;
+        };
+    
+        // 카테고리별로 마커를 생성하고 해당 마커 배열에 추가하는 함수입니다
+        const createCategoryMarkers = (positions, image) => {
+          const markers = [];
+          positions.forEach((position) => {
+            const marker = createMarker(position.position, image);
+            createMarkerAndAddClickListener(marker, { title: position.title, content: position.content, id: position.id, imageUrl: position.imageUrl });
+            markers.push(marker);
+          });
+          return markers;
+        };
+    
+        infoMarkers.push(...createCategoryMarkers(infoPositions, markerImages[0]));
+        foodMarkers.push(...createCategoryMarkers(foodPositions, markerImages[1]));
+        talkMarkers.push(...createCategoryMarkers(talkPositions, markerImages[2]));
+    
+        // 카테고리별로 지도에 표시되는 마커를 변경합니다
+        const changeMarker = (type) => {
+          // 기존의 CustomOverlay를 제거하는 코드를 추가합니다.
+          if (currentOverlay) {
+            currentOverlay.setMap(null);
+            currentOverlay = null;
+          }
 
-      // 카테고리 버튼을 누르면 해당 마커가 표시됩니다
-      const infoBtn = document.querySelector('.infoBtn');
-      infoBtn.addEventListener('click', () => {
+          if (type === 'info') {
+            setMarkers(infoMarkers, map);
+            setMarkers(foodMarkers, null);
+            setMarkers(talkMarkers, null);
+          } else if (type === 'food') {
+            setMarkers(infoMarkers, null);
+            setMarkers(foodMarkers, map);
+            setMarkers(talkMarkers, null);
+          } else if (type === 'talk') {
+            setMarkers(infoMarkers, null);
+            setMarkers(foodMarkers, null);
+            setMarkers(talkMarkers, map);
+          }
+        };
+    
+        // 지도에 마커를 표시하는 함수입니다
+        const setMarkers = (markers, map) => {
+          for (let i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+          }
+        };
+
+        // 카테고리 버튼을 클릭했을 때 호출되는 함수입니다
+        const onClickCategory = (selectedCategory) => {
+          changeMarker(selectedCategory);
+        };
+
+        // 카테고리 버튼에 클릭 이벤트를 등록합니다
+        const infoBtn = document.querySelector('.infoBtn');
+        const foodBtn = document.querySelector('.foodBtn');
+        const talkBtn = document.querySelector('.talkBtn');
+
+        infoBtn.addEventListener('click', () => onClickCategory('info'));
+        foodBtn.addEventListener('click', () => onClickCategory('food'));
+        talkBtn.addEventListener('click', () => onClickCategory('talk'));
+
+        // 지도가 처음 로드될 때, 정보 카테고리의 마커가 표시되도록 합니다
         changeMarker('info');
       });
-
-      const foodBtn = document.querySelector('.foodBtn');
-      foodBtn.addEventListener('click', () => {
-        changeMarker('food');
-      });
-
-      const talkBtn = document.querySelector('.talkBtn');
-      talkBtn.addEventListener('click', () => {
-        changeMarker('talk');
-      });
-
-
     });
   }, []);
 
-  return (
-    <div>
-      <div id="map"></div>
-      <div className='category'>
-        <img src={infoIcon} alt="정보 카테고리" className='infoBtn' />
-        <img src={foodIcon} alt="맛집 카테고리" className='foodBtn' />
-        <img src={talkIcon} alt="수다 카테고리" className='talkBtn' />
+    return (
+      <div className="Map">
+        <div id="map"></div>
+        <img className="zoomInButton" src={zoomInButtonImg} alt="확대" />
+        <img className="zoomOutButton" src={zoomOutButtonImg} alt="축소" />
+        <img className="locationButton" src={loc_now_btn_Img} alt="현재 위치" />
+        <img className="writeButton" src={write_buttonImg} alt="글쓰기" onClick={handleWriteButtonClick} style={{ display: accessToken ? 'block' : 'none' }}/> 
+        <div className="category"> {/* 카테고리 버튼을 div로 감싸줍니다. */}
+          <img className="infoBtn" src={infoIcon} alt="정보" />
+          <img className="foodBtn" src={foodIcon} alt="음식" />
+          <img className="talkBtn" src={talkIcon} alt="토론" />
+        </div>
       </div>
-      <div className='zoomControl'>
-        <img src={zoomInButtonImg} alt="확대 버튼" className="zoomInButton" />
-        <img src={zoomOutButtonImg} alt="축소 버튼" className="zoomOutButton" />
-      </div>
-      <div className="location">
-        <img src={loc_now_btn_Img} alt="현재 위치 버튼" className="locationButton" />
-      </div>
-      <div className="write">
-        <img src={write_buttonImg} alt="글쓰기 버튼" className="write_button" />
-      </div>
-    </div>
-  );
-}
+    );}
 
 export default Map;

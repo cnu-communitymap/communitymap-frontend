@@ -4,71 +4,55 @@ html, body, #root {
   margin: 0;
   padding: 0;
   overflow: hidden;
-}
-
-#map {
-  left:70px;
-  top:0;
-  width : 100%;
+  }
+  #map {
+  left: 70px;
+  top: 0;
+  width: 100%;
   height: 100%;
-  position:fixed;
-  z-index : 997;
+  position: fixed;
+  z-index: 997;
+  }
+
+/* 현 위치 버튼 css */
+.locationButton {
+  position: absolute;
+  top: 225px;
+  right: 10px;
+  width: 40px;
+  height: 80px;
+  overflow: hidden;
+  z-index: 998;
 }
 
 /* zoomcontrol */
-.zoomControl {
-  position:absolute;
-  top:135px;
-  right:10px;
-  width:40px;
-  height:80px;
-  overflow:hidden;
-  z-index:998;
-}
 
 /* zoom In 버튼 */
 .zoomInButton {
-  display:block;
-  width:40px;
-  height:40px;
-  text-align:center;
-  cursor:pointer;
-}
-/* zoom out 버튼 */
-.zoomOutButton {
-  display:block;
-  width:40px;
-  height:40px;
-  text-align:center;
-  cursor:pointer;
-}
-
-
-/* 현 위치 버튼 css */
-
-.location{
-  position:absolute;
-  top: 220px;
-  right:10px;
-  width:40px;
-  height:80px;
-  overflow:hidden;
-  z-index:998;
-}
-
-.locationButton{
-  /* position:; */
+  position: absolute; /* 수정 */
+  top: 145px;
+  right: 10px;
   width: 40px;
   height: 40px;
-  padding: 0px;
-  border: none;
-  cursor:pointer;
+  text-align: center;
+  cursor: pointer;
+  z-index: 998;
 }
 
-
-
-/* 글쓰기 버튼 */
-.write {
+/* zoom out 버튼 */
+.zoomOutButton {
+  position: absolute; /* 수정 */
+  top: 185px;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  cursor: pointer;
+  z-index: 998;
+}
+  
+  /* 글쓰기 버튼 */
+  .write {
   position: absolute;
   bottom: 10px;
   right: 10px;
@@ -76,17 +60,20 @@ html, body, #root {
   height: 55px;
   overflow: hidden;
   z-index: 998;
-}
-
-.write_button {
+  }
+  
+  .writeButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
   width: 55px;
   height: 55px;
-  padding: 0px;
-  border: none;
-}
-
-/* 카테고리 */
-.category {
+  overflow: hidden;
+  z-index: 998;
+  }
+  
+  /* 카테고리 */
+  .category {
   position: absolute;
   top: 20px;
   right: 10px;
@@ -94,29 +81,146 @@ html, body, #root {
   height: 72px;
   overflow: hidden;
   z-index: 998;
-}
-
-.infoBtn {
+  }
+  
+  .infoBtn {
   display: inline-block;
   width: 50px;
   height: 70px;
   cursor: pointer;
-  border:1px solid gainsboro;
-}
-
-.foodBtn {
+  border: 1px solid gainsboro;
+  }
+  
+  .foodBtn {
   display: inline-block;
   width: 50px;
   height: 70px;
   cursor: pointer;
-  border:1px solid gainsboro;
-}
-
-
-.talkBtn {
+  border: 1px solid gainsboro;
+  }
+  
+  .talkBtn {
   display: inline-block;
   width: 50px;
   height: 70px;
   cursor: pointer;
-  border:1px solid gainsboro;
+  border: 1px solid gainsboro;
+  }
+
+
+  /* 커스텀 오버레이 스타일 */
+  /* 커스텀 오버레이 */
+.overlay_wrap {
+  position: absolute;
+  left: 0;
+  bottom: 67px;
+  width: 288px;
+  height: 132px;
+  margin-left: -148px;
+  text-align: left;
+  overflow: hidden;
+  font-size: 13px;
+  font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+  line-height: 1.5;
+}
+
+.overlay_wrap * {
+  padding: 0;
+  margin: 0;
+}
+
+.overlay_wrap .overlay_info {
+  width: 288px;
+  height: 120px;
+  border-radius: 5px;
+  border-bottom: 2px solid #ccc;
+  border-right: 1px solid #ccc;
+  overflow: hidden;
+  background: #fff;
+}
+
+.overlay_wrap .overlay_info:nth-child(1) {
+  border: 0;
+  box-shadow: 0px 1px 2px #888;
+}
+
+.overlay_info .overlay_title {
+  padding: 2px 0 0 6px;
+  height: 30px;
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  font-size: 17.5px;
+  font-weight: bold;
+}
+
+.overlay_title .overlay_close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #888;
+  width: 17px;
+  height: 17px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png');
+}
+
+.overlay_title .overlay_close:hover {
+  cursor: pointer;
+}
+
+.overlay_info .overlay_body {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.overlay_body .overlay_desc {
+  position: relative;
+  margin: 10px 0 0 78px;
+  height: 75px;
+}
+
+.overlay_desc .overlay_content {
+  overflow: hidden;
+  word-wrap: break-word;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.overlay_body .overlay_image {
+  position: absolute;
+  top: 9px;
+  left: 0px;
+  max-width: 70px;
+  max-height: 70px;
+  text-align: center;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border: 1px solid #ddd;
+  color: #888;
+  overflow: hidden;
+}
+
+.overlay_info:after {
+  content: '';
+  position: absolute;
+  margin-left: -12px;
+  left: 50%;
+  bottom: 0;
+  width: 22px;
+  height: 12px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.overlay_info .link {
+  color: #5085BB;
+}
+
+.overlay_content {
+  width: 193px;
+  height: 68px;
+  font-size: 14.5px;
+  color: rgb(77, 73, 73);
 }

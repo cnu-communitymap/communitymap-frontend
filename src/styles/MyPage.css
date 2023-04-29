@@ -1,0 +1,66 @@
+/* MyPage.css */
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+.mypage-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.mypage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  box-sizing: border-box;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  min-width: 300px;
+}
+
+.mypage h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.mypage .info-container p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mypage button {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.mypage .edit-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+
+.mypage .edit-button:hover {
+  background-color: #0056b3;
+}
+
+.mypage .logout-button {
+  background-color: #7367f6;
+  color: white;
+  border: none;
+}
+
+.mypage .logout-button:hover {
+  background-color: #6d61ea;
+}

@@ -1,0 +1,75 @@
+.writePostForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 500px;
+}
+
+.writeClose {
+  cursor: pointer;
+  margin: 20px 10px 0px 420px;
+  color: #888;
+  width: 17px;
+  height: 17px;
+  background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/overlay_close.png')
+}
+
+.writePostForm h2 {
+  margin: 15px 30px 30px 30px;
+  font-size: 30px;
+}
+
+.writePostForm label {
+  font-size: 20px;
+}
+
+.writePostForm select {
+  font-size: 20px;
+  width: 100px;
+  height: 25px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+
+.writePostForm input[type="text"]{
+  width: 400px;
+  margin-bottom: 18px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.writePostForm textarea {
+  width: 400px;
+  height: 300px;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.writePostForm input[type="file"]{
+  align-items: flex-start;
+  width: 420px;
+  margin-bottom: 10px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.writePostForm button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #006aff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.writePostForm button:hover {
+  background-color: #0055cc;
+}
