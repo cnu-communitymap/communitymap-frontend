@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchUserData } from '@/components/utils';
 import { useNavigate } from 'react-router-dom';
-import '@/styles/Mypage.css';
+import '@/styles/MyPage.css';
 
 const MyPage = ({ accessToken, onLogout }) => {
   const [userData, setUserData] = useState(null);
