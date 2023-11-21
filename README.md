@@ -50,3 +50,7 @@
 ![notion](https://github.com/cnu-communitymap/communitymap-frontend/assets/120551363/ea7fa850-920a-49b0-b0cc-a12a40b4a92e)
 
 
+<h2>📌 발표 포스터</h2>
+
+![15팀_포스터](https://github.com/cnu-communitymap/communitymap-frontend/assets/120551363/5ec1cab3-a740-4f9d-b45a-1bc5afe274af)
+
