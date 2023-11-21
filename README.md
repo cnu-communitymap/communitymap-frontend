@@ -1,6 +1,6 @@
 <h1>Map Community</h1> 
 
-> Kakaomap API를 활용한 위치 기반 커뮤니티 <br/>
+  Kakaomap API를 활용한 위치 기반 커뮤니티 <br/>
   (현재 위치 근처의 커뮤니티만 이용 가능) <br/>
   NCP를 활용하여 WEB (Nginx) + WAS (Apache Tomcat) + DB (PostgreSQL) 구축 및 배포 <br/><br/>
   2023 CNU SW Academy 2기 15조 <재밌을지도> <br/>
